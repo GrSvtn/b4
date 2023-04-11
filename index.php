@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('name_value', $name, time() + 12 * 30 * 24 * 60 * 60);
     }
 
-    if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/", $email)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
         setcookie('email_error', '1');
         $errors = TRUE;
     } else {
