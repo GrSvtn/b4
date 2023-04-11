@@ -13,11 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Складываем признак ошибок в массив.
     $errors = array();
     $errors['name'] = !empty($_COOKIE['name_error']);
+    $errors['email'] = !empty($_COOKIE['email_error']);
     $errors['bio'] = !empty($_COOKIE['bio_error']);
 
     if ($errors['name']) {
         $messages['name'] = 'Заполните имя латиницей<br>';
         setcookie('name_error', '');
+    }
+    
+    if ($errors['email']) {
+        $messages['email'] = 'Заполните почту правильно<br>';
+        setcookie('email_error', '');
     }
 
     if ($errors['bio']) {
@@ -69,6 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('name_value', $name, time() + 12 * 30 * 24 * 60 * 60);
     }
 
+    if (!preg_match("/^[A-z]*$/", $email)) {
+        setcookie('email_error', '1');
+        $errors = TRUE;
+    } else {
+        setcookie('email_value', $email, time() + 12 * 30 * 24 * 60 * 60);
+    }
+    
     if (!preg_match("/^[A-z]*$/", $bio)) {
         setcookie('bio_error', '1');
         $errors = TRUE;
@@ -77,8 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     setcookie('powers_value', json_encode($powers), time() + 12 * 30 * 24 * 60 * 60);
-
-    setcookie('email_value', $email, time() + 12 * 30 * 24 * 60 * 60);
 
     setcookie('birthday_value', $birthday, time() + 12 * 30 * 24 * 60 * 60);
 
@@ -95,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     } else {
         setcookie('name_error', '');
+        setcookie('email_error', '');
         setcookie('bio_error', '');
     }
 
