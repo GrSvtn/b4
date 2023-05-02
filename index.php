@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $messages = array();
     // В суперглобальном массиве $_COOKIE PHP хранит все имена и значения куки текущего запроса.
     if (!empty($_COOKIE['save'])) {
-        setcookie('save', '');
+        setcookie('save', '', time() - 1);
         $messages['success'] = 'Спасибо, результаты сохранены.';
     }
 
@@ -18,17 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if ($errors['name']) {
         $messages['name'] = 'Заполните имя латиницей<br>';
-        setcookie('name_error', '');
+        setcookie('name_error', '', time() - 1);
     }
-    
+
     if ($errors['email']) {
         $messages['email'] = 'Заполните почту правильно<br>';
-        setcookie('email_error', '');
+        setcookie('email_error', '', time() - 1);
     }
 
     if ($errors['bio']) {
         $messages['bio'] = 'Заполните биографию латиницей<br>';
-        setcookie('bio_error', '');
+        setcookie('bio_error', '', time() - 1);
     }
 
 
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     } else {
         setcookie('email_value', $email, time() + 12 * 30 * 24 * 60 * 60);
     }
-    
+
     if (!preg_match("/^[A-z]*$/", $bio)) {
         setcookie('bio_error', '1');
         $errors = TRUE;
@@ -105,9 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         exit();
 
     } else {
-        setcookie('name_error', '');
-        setcookie('email_error', '');
-        setcookie('bio_error', '');
+        setcookie('name_error', '', time() - 1);
+        setcookie('email_error', '', time() - 1);
+        setcookie('bio_error', '', time() - 1);
     }
 
     setcookie('save', '1', time() + 12 * 30 * 24 * 60 * 60);
@@ -115,7 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         $user = 'u53890';
         $password = '8091112';
-
         $connection = new PDO("mysql:host=localhost;dbname=u53890", $user, $password, array(PDO::ATTR_PERSISTENT => true));
 
 
